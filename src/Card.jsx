@@ -1,7 +1,13 @@
 import React from 'react';
-import {ActionList, Button, Card, Label, List, Popover, ResourceList, Stack, TextContainer} from '@shopify/polaris';
+import {ActionList, Button, Card, List, Popover, ResourceList, Stack, TextContainer} from '@shopify/polaris';
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  
+
   render() {
     return (
       <Card
@@ -11,7 +17,7 @@ export default class App extends React.Component {
         <Card.Header
           actions={[
             {
-              content: 'Total Sales',
+              content: 'Total Sales', onAction: () => {console.log('Its total Sales')}
             },
           ]}
           title="Sales"

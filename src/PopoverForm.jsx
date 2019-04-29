@@ -1,9 +1,9 @@
 import React from 'react';
 import {Button, FormLayout, Popover, Select, TextField} from '@shopify/polaris';
 
-export default class PopoverFormExample extends React.Component {
+export default class App extends React.Component {
   state = {
-    active: true,
+    active: false,
     tagValue: '',
     selected: 'with'
   };

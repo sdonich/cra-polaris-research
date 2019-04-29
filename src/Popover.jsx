@@ -1,7 +1,7 @@
 import React from 'react';
 import {ActionList, Button, Popover} from '@shopify/polaris';
 
-export default class PopoverContentExample extends React.Component {
+export default class App extends React.Component {
 
   state = {
     active: false,

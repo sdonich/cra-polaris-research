@@ -1,24 +1,23 @@
 import React from 'react';
-import {Autocomplete, Stack, Tag, TextContainer} from '@shopify/polaris';
+import {Autocomplete, Stack, Tag, Icon, TextContainer} from '@shopify/polaris';
 
-export default class MultiAutocompleteExample extends React.Component {
-  options = [
-    {value: 'rustic', label: 'Rustic'},
-    {value: 'antique', label: 'Antique'},
-    {value: 'vinyl', label: 'Vinyl'},
-    {value: 'vintage', label: 'Vintage'},
-    {value: 'refurbished', label: 'Refurbished'},
-    {value: 'devide_string', label: 'Devide String'}
+export default class App extends React.Component {
+  paginationInterval = 15;
 
-  ];
+  options = Array.from(Array(100)).map((_, index) => ({
+    value: `rustic_${index}`,
+    label: `Rustic ${index}`,
+  }));
 
   state = {
     selected: [],
     inputText: '',
     options: this.options,
+    visibleOptionIndex: this.paginationInterval,
   };
 
   render() {
+    const {visibleOptionIndex, selected, options} = this.state;
     const textField = (
       <Autocomplete.TextField
         onChange={this.updateText}
@@ -27,30 +26,55 @@ export default class MultiAutocompleteExample extends React.Component {
         placeholder="Vintage, cotton, summer"
       />
     );
+
+    const optionList = options.slice(0, visibleOptionIndex);
+    const selectedTagMarkup =
+      selected.length > 0 ? (
+        <Stack spacing="extraTight">{this.renderTags()}</Stack>
+      ) : <Stack spacing="extraTight"><div>Choose your tag</div></Stack>;
+
+    const emptyState = (
+      <React.Fragment>
+        <Icon source="search" />
+        <div style={{textAlign: 'center'}}>
+          <TextContainer>Could not find any results</TextContainer>
+        </div>
+      </React.Fragment>
+    );    
+
     return (
       <div style={{height: '325px', width: '500px', margin: '30px auto'}}>
-        <TextContainer>
-          <Stack>{this.renderTags()}</Stack>
-        </TextContainer>
-        <br />
-        <Autocomplete
-          allowMultiple
-          options={this.state.options}
-          selected={this.state.selected}
-          textField={textField}
-          onSelect={this.updateSelection}
-          listTitle="Suggested Tags"
-        />
+        <Stack vertical>
+          {selectedTagMarkup}
+          <Autocomplete
+            allowMultiple
+            options={optionList}
+            selected={this.state.selected}
+            textField={textField}
+            onSelect={this.updateSelection}
+            listTitle="Suggested Tags"
+            onLoadMoreResults={this.handleLoadMoreResults}
+            emptyState={emptyState}
+          />
+        </Stack>
       </div>
     );
   }
+
+  handleLoadMoreResults = () => {
+    const {visibleOptionIndex} = this.state;
+    const nextVisibleOptionIndex = visibleOptionIndex + this.paginationInterval;
+    if (nextVisibleOptionIndex <= this.options.length - 1) {
+      this.setState({visibleOptionIndex: nextVisibleOptionIndex});
+    }
+  };
 
   updateText = (newValue) => {
     this.setState({inputText: newValue});
     this.filterAndUpdateOptions(newValue);
   };
 
-  removeTag = (tag) => {
+  removeTag = (tag) => () => {
     const {selected: newSelected} = this.state;
     newSelected.splice(newSelected.indexOf(tag), 1);
     this.setState({selected: newSelected});
@@ -59,13 +83,11 @@ export default class MultiAutocompleteExample extends React.Component {
   renderTags = () => {
     return this.state.selected.map((option) => {
       let tagLabel = '';
-      // console.log(option);
-      
+
       tagLabel = option.replace('_', ' ');
-      console.log(tagLabel);
       tagLabel = titleCase(tagLabel);
       return (
-        <Tag key={'option' + option} onRemove={() => this.removeTag(option)}>
+        <Tag key={`option${option}`} onRemove={this.removeTag(option)}>
           {tagLabel}
         </Tag>
       );
@@ -74,9 +96,8 @@ export default class MultiAutocompleteExample extends React.Component {
 
   filterAndUpdateOptions = (inputString) => {
     if (inputString === '') {
-      this.setState({
-        options: this.options,
-      });
+      this.setState({options: this.options});
+
       return;
     }
 
@@ -84,24 +105,25 @@ export default class MultiAutocompleteExample extends React.Component {
     const resultOptions = this.options.filter((option) =>
       option.label.match(filterRegex),
     );
-    let endIndex = resultOptions.length - 1;
-    if (resultOptions.length === 0) {
-      endIndex = 0;
-    }
-    this.setState({
-      options: resultOptions,
-    });
+
+    this.updateOptions(resultOptions);
   };
 
-  updateSelection = (selected) => this.setState({selected});
+  updateOptions = (options) => {
+    this.setState({options});
+  };
+
+  updateSelection = (selected) => {
+    this.setState({selected})
+  };
 }
 
 function titleCase(string) {
-  string = string
+  return string
     .toLowerCase()
     .split(' ')
-    .map(function(word) {
+    .map((word) => {
       return word.replace(word[0], word[0].toUpperCase());
-    });
-  return string.join(' ');
+    })
+    .join(' ');
 }

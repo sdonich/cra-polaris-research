@@ -14,6 +14,7 @@ export default class App extends React.Component {
     inputText: '',
     options: this.options,
     visibleOptionIndex: this.paginationInterval,
+    loading: false
   };
 
   render() {
@@ -55,6 +56,7 @@ export default class App extends React.Component {
             listTitle="Suggested Tags"
             onLoadMoreResults={this.handleLoadMoreResults}
             emptyState={emptyState}
+            loading={this.state.loading}
           />
         </Stack>
       </div>
@@ -95,22 +97,28 @@ export default class App extends React.Component {
   };
 
   filterAndUpdateOptions = (inputString) => {
-    if (inputString === '') {
-      this.setState({options: this.options});
-
-      return;
+    if (!this.state.loading) {
+      this.setState({loading: true});
     }
 
-    const filterRegex = new RegExp(inputString, 'i');
-    const resultOptions = this.options.filter((option) =>
-      option.label.match(filterRegex),
-    );
-
-    this.updateOptions(resultOptions);
+    setTimeout(() => {
+      if (inputString === '') {
+        this.setState({options: this.options, loading: false});
+  
+        return;
+      }
+  
+      const filterRegex = new RegExp(inputString, 'i');
+      const resultOptions = this.options.filter((option) =>
+        option.label.match(filterRegex),
+      );
+  
+      this.updateOptions(resultOptions);
+    }, 300)
   };
 
   updateOptions = (options) => {
-    this.setState({options});
+    this.setState({options, loading: false});
   };
 
   updateSelection = (selected) => {

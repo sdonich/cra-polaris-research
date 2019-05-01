@@ -1,5 +1,24 @@
 import React from 'react';
-import {ActionList, AppProvider, Card, ContextualSaveBar, FormLayout, Frame, Layout, Loading, Modal, Navigation, Page, TextContainer, TextField, Toast, TopBar, SkeletonPage, SkeletonBodyText, SkeletonDisplayText} from '@shopify/polaris';
+import {
+  ActionList,
+  AppProvider,
+  Card,
+  ContextualSaveBar,
+  FormLayout,
+  Frame,
+  Layout,
+  Loading,
+  Modal,
+  Navigation,
+  Page,
+  TextContainer,
+  TextField,
+  Toast,
+  TopBar,
+  SkeletonPage,
+  SkeletonBodyText,
+  SkeletonDisplayText
+} from '@shopify/polaris';
 
 export default class App extends React.Component {
   defaultState = {
@@ -47,18 +66,9 @@ export default class App extends React.Component {
 
     const userMenuActions = [
       {
-        items: [{content: 'Community forums'}],
+        items: [{content: 'Community forums', onAction: () => {console.log('Community forums was clicked')}}],
       },
     ];
-
-    const navigationUserMenuMarkup = (
-      <Navigation.UserMenu
-        actions={userMenuActions}
-        name="Dharma"
-        detail={storeName}
-        avatarInitials="D"
-      />
-    );
 
     const contextualSaveBarMarkup = isDirty ? (
       <ContextualSaveBar
@@ -115,7 +125,7 @@ export default class App extends React.Component {
     );
 
     const navigationMarkup = (
-      <Navigation location="/" userMenu={navigationUserMenuMarkup}>
+      <Navigation location="/">
         <Navigation.Section
           items={[
             {

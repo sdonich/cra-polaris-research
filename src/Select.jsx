@@ -27,7 +27,14 @@ export default class App extends React.Component {
               id={unitSelectID}
               label="Unit of measure"
               placeholder="Select"
-              options={['oz', 'g', 'kg', 'lb']}
+              options={
+                [
+                  'oz', 'g', 'kg', 'lb', {
+                    options: ['Dohrena'],
+                    title: 'Special unit'
+                  }
+                ]
+              }
               value={unit}
               onChange={this.handleChange('unit')}
               error={Boolean(!unit && weight)}

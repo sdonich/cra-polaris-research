@@ -17,7 +17,8 @@ import {
   TopBar,
   SkeletonPage,
   SkeletonBodyText,
-  SkeletonDisplayText
+  SkeletonDisplayText,
+  TextStyle
 } from '@shopify/polaris';
 
 export default class App extends React.Component {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActionList, AppProvider, Card, Frame, Label, List, Navigation, TopBar} from '@shopify/polaris';
+import {ActionList, AppProvider, Card, Frame, TopBar} from '@shopify/polaris';
 
 export default class App extends React.Component {
   state = {

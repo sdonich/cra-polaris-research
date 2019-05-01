@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActionList, AppProvider, Card, ContextualSaveBar, DisplayText, Form, FormLayout, Frame, Label, Layout, List, Loading, Modal, Navigation, Page, TextContainer, TextField, Toast, TopBar, SkeletonPage, SkeletonBodyText, SkeletonDisplayText} from '@shopify/polaris';
+import {ActionList, AppProvider, Card, ContextualSaveBar, FormLayout, Frame, Layout, Loading, Modal, Navigation, Page, TextContainer, TextField, Toast, TopBar, SkeletonPage, SkeletonBodyText, SkeletonDisplayText} from '@shopify/polaris';
 
 export default class App extends React.Component {
   defaultState = {
@@ -285,14 +285,14 @@ export default class App extends React.Component {
 
   handleEmailFieldChange = (emailFieldValue) => {
     this.setState({emailFieldValue});
-    if (emailFieldValue != '') {
+    if (emailFieldValue !== '') {
       this.setState({isDirty: true});
     }
   };
 
   handleNameFieldChange = (nameFieldValue) => {
     this.setState({nameFieldValue});
-    if (nameFieldValue != '') {
+    if (nameFieldValue !== '') {
       this.setState({isDirty: true});
     }
   };

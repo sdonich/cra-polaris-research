@@ -24,11 +24,12 @@ export default class App extends React.Component {
               }}
               discardAction={{
                 onAction: () => console.log('add clear form logic'),
+                discardConfirmationModal: true
               }}
             />
           </Frame>
         </AppProvider>
-</div>
+      </div>
     );
   }
 }

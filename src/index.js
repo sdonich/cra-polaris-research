@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import '@shopify/polaris/styles.css';
 import {AppProvider} from '@shopify/polaris';
 
-import App from './Layout';
+import App from './Sort';
 
 ReactDOM.render(
   <AppProvider>

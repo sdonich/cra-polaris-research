@@ -97,7 +97,7 @@ export default class App extends React.Component {
       <Card>
         <ActionList
           items={[
-            {content: 'Shopify help center'},
+            {content: 'Shopify help center', onAction: () => console.log('hello')},
             {content: 'Community forums'},
           ]}
         />
@@ -131,6 +131,7 @@ export default class App extends React.Component {
             {
               label: 'Back to Shopify',
               icon: 'arrowLeft',
+              onClick: () => console.log('Click to Back to Shopify')
             },
           ]}
         />
@@ -212,6 +213,10 @@ export default class App extends React.Component {
         primaryAction={{
           content: 'Send',
           onAction: this.toggleState('modalActive'),
+        }}
+        secondaryActions={{
+          content: 'Cancel',
+          onAction: this.toggleState('modalActive')
         }}
       >
         <Modal.Section>
